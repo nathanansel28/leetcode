@@ -1,6 +1,6 @@
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
-
+        """Draft solution"""
         grandlist = [[] for _ in range(numRows)]
 
         overall_count = 0
@@ -37,7 +37,7 @@ class Solution:
 
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
-
+        """Improved solution to the first draft"""
         grandlist = ["" for _ in range(numRows)]
 
         overall_count = 0
@@ -70,6 +70,33 @@ class Solution:
 
         return output
     
+
+class Solution:
+    def convert(self, s: str, numRows: int) -> str: 
+        if numRows == 1:
+            return s
+        
+        list_string = ["" for _ in range(numRows)]
+
+        up = True
+        for i, char in enumerate(list_string):
+            if up: 
+                row_idx = i % numRows 
+                list_string[row_idx] += char
+                if row_idx == (numRows - 1):
+                    up = False
+            else: 
+                row_idx = numRows - (1 % numRows)
+                list_string[row_idx] += char 
+                if row_idx == 0:
+                    up = True
+
+        output = ""
+        for _string in list_string: 
+            output += _string
+
+        return output
+
 
 assert Solution().convert("PAYPALISHIRING", numRows=5) == 'PHASIYIRPLIGAN'
 assert Solution().convert("PAYPALISHIRING", numRows=4) == 'PINALSIGYAHRPI'
