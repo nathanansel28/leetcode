@@ -1,20 +1,7 @@
 from typing import Tuple, List
-import logging
-import sys
-
-# Configure logging to mimic print()
-logging.basicConfig(
-    level=logging.DEBUG,  
-    format='%(message)s',
-    stream=sys.stdout
-)
-logger = logging.getLogger(__name__)
-
-
+from my_logger import load_logger
 DEBUG = False
-if not DEBUG:
-    logger.setLevel(logging.WARNING)
-
+logger = load_logger(DEBUG)
 
 class Solution:
     def myAtoi(self, s: str) -> int:
