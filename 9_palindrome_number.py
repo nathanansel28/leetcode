@@ -6,6 +6,13 @@ logger = load_logger(DEBUG)
 
 import math
 
+class Solution:
+    """Fast and easy solution."""
+    def isPalindrome(self, x: int) -> bool:
+        x_str = str(x)
+        x_str_reversed = x_str[::-1]
+        return x_str == x_str_reversed
+
 
 class Solution:
     def isPalindrome(self, x: int) -> bool:
