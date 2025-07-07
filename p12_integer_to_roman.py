@@ -119,13 +119,35 @@ class Solution:
 
 
 
+class Solution: 
+    """Greedy approach, best and final approach."""
+    def __init__(self):
+        self.integers = [
+            1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
+        ]
+        self.romans = [
+            'M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'
+        ]
+
+    def intToRoman(self, num: int) -> str:
+        roman = ""
+        index = 0
+        while num > 0:
+            if num - self.integers[index] >= 0:
+                num -= self.integers[index]
+                roman += self.romans[index]
+            else: 
+                index += 1 
+            if index > len(self.integers) - 1:
+                break
+        return roman 
 
 
 
-
-
-
-
+    def simplify_roman(self, roman: str) -> str:
+        for key, item in self.translation.items(): 
+            roman = roman.replace(key, item) 
+        return roman
 
 
 
@@ -151,7 +173,106 @@ test_cases = [
     (15, 'XV'),
     (3749, 'MMMDCCXLIX'),
     (58, 'LVIII'), 
-    (1994, 'MCMXCIV')
+    (1994, 'MCMXCIV'),
+    (2565, 'MMDLXV'), 
+    (2069, 'MMLXIX'), 
+    (22, 'XXII'), 
+    (2583, 'MMDLXXXIII'), 
+    (539, 'DXXXIX'), 
+    (1054, 'MLIV'), 
+    (2593, 'MMDXCIII'), 
+    (1571, 'MDLXXI'), 
+    (3109, 'MMMCIX'), 
+    (1064, 'MLXIV'), 
+    (2091, 'MMXCI'), 
+    (45, 'XLV'), 
+    (2094, 'MMXCIV'), 
+    (2096, 'MMXCVI'), 
+    (3123, 'MMMCXXIII'), 
+    (2614, 'MMDCXIV'), 
+    (3640, 'MMMDCXL'), 
+    (1604, 'MDCIV'), 
+    (3666, 'MMMDCLXVI'), 
+    (3158, 'MMMCLVIII'), 
+    (2665, 'MMDCLXV'), 
+    (3693, 'MMMDCXCIII'), 
+    (3711, 'MMMDCCXI'), 
+    (1673, 'MDCLXXIII'), 
+    (652, 'DCLII'), 
+    (656, 'DCLVI'), 
+    (148, 'CXLVIII'), 
+    (2710, 'MMDCCX'), 
+    (3227, 'MMMCCXXVII'), 
+    (160, 'CLX'), 
+    (162, 'CLXII'), 
+    (1699, 'MDCXCIX'), 
+    (2728, 'MMDCCXXVIII'), 
+    (2731, 'MMDCCXXXI'), 
+    (3249, 'MMMCCXLIX'), 
+    (3766, 'MMMDCCLXVI'), 
+    (1718, 'MDCCXVIII'), 
+    (3257, 'MMMCCLVII'), 
+    (2745, 'MMDCCXLV'), 
+    (3263, 'MMMCCLXIII'), 
+    (3780, 'MMMDCCLXXX'), 
+    (3269, 'MMMCCLXIX'), 
+    (2763, 'MMDCCLXIII'), 
+    (719, 'DCCXIX'), 
+    (208, 'CCVIII'), 
+    (723, 'DCCXXIII'), 
+    (3287, 'MMMCCLXXXVII'), 
+    (3802, 'MMMDCCCII'), 
+    (734, 'DCCXXXIV'), 
+    (742, 'DCCXLII'), 
+    (1259, 'MCCLIX'), 
+    (749, 'DCCXLIX'), 
+    (2285, 'MMCCLXXXV'), 
+    (766, 'DCCLXVI'), 
+    (2814, 'MMDCCCXIV'), 
+    (2313, 'MMCCCXIII'), 
+    (2830, 'MMDCCCXXX'), 
+    (3351, 'MMMCCCLI'), 
+    (1303, 'MCCCIII'), 
+    (2859, 'MMDCCCLIX'), 
+    (302, 'CCCII'), 
+    (2354, 'MMCCCLIV'), 
+    (2363, 'MMCCCLXIII'), 
+    (2373, 'MMCCCLXXIII'), 
+    (328, 'CCCXXVIII'), 
+    (1864, 'MDCCCLXIV'), 
+    (1361, 'MCCCLXI'), 
+    (1875, 'MDCCCLXXV'), 
+    (1366, 'MCCCLXVI'), 
+    (2396, 'MMCCCXCVI'), 
+    (3935, 'MMMCMXXXV'), 
+    (1889, 'MDCCCLXXXIX'), 
+    (1386, 'MCCCLXXXVI'), 
+    (874, 'DCCCLXXIV'), 
+    (3437, 'MMMCDXXXVII'), 
+    (3959, 'MMMCMLIX'), 
+    (1405, 'MCDV'), 
+    (893, 'DCCCXCIII'), 
+    (2946, 'MMCMXLVI'), 
+    (3460, 'MMMCDLX'), 
+    (1418, 'MCDXVIII'), 
+    (2955, 'MMCMLV'), 
+    (403, 'CDIII'), 
+    (2971, 'MMCMLXXI'), 
+    (3485, 'MMMCDLXXXV'), 
+    (1441, 'MCDXLI'), 
+    (3492, 'MMMCDXCII'), 
+    (424, 'CDXXIV'), 
+    (1453, 'MCDLIII'), 
+    (3529, 'MMMDXXIX'), 
+    (2002, 'MMII'), 
+    (979, 'CMLXXIX'), 
+    (981, 'CMLXXXI'), 
+    (1496, 'MCDXCVI'), 
+    (2009, 'MMIX'), 
+    (3040, 'MMMXL'), 
+    (3044, 'MMMXLIV'), 
+    (1532, 'MDXXXII'), 
+    (3582, 'MMMDLXXXII'), 
 ]
 
 run_test_cases(Solution().intToRoman, test_cases)
