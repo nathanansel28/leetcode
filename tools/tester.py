@@ -1,21 +1,27 @@
-from typing import Callable, List, Tuple, TypeVar, Literal
+from typing import Callable, List, Tuple, TypeVar, Literal, Union
 from tools.my_logger import load_logger
 logger = load_logger(DEBUG=True)
 
-T = TypeVar('T')  # Input type
+T = TypeVar('T')  # Input type or Tuple of input types
 R = TypeVar('R')  # Output type
 
 def run_test_cases(
-    func: Callable[[T], R],
-    test_cases: List[Tuple[T, R]],
+    func: Callable[..., R],
+    test_cases: List[Tuple[Union[T, Tuple], R]],
     passing_condition: Literal['in', 'equal'] = 'equal',
     description: str = ""
 ) -> None:
     if description:
         logger.info(f"Running tests for: {description}")
+        
     for i, (input_val, expected_output) in enumerate(test_cases, 1):
         logger.info(f"\nTesting {i}: {input_val}")
-        actual_output = func(input_val)
+        
+        # If input_val is a tuple, unpack it as arguments; else pass directly
+        if isinstance(input_val, tuple):
+            actual_output = func(*input_val)
+        else:
+            actual_output = func(input_val)
 
         if passing_condition == 'equal': 
             assert actual_output == expected_output, (
