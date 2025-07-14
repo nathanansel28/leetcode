@@ -29,7 +29,7 @@ from typing import List, Tuple
 
 
 class Solution:
-    """2-pointer method"""
+    """2-pointer method. Functional but not-optimized."""
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
         results = []
@@ -37,10 +37,11 @@ class Solution:
         for i in range(len(nums) - 3):
             # if i > 0 and nums[i] == nums[i - 1]:
             #     continue  
-            for j in range(i, len(nums) - 3):
+            for j in range(i+1, len(nums) - 2):
                 # if j > 0 and nums[j] == nums[j-1]:
                 #     continue
                 k, l = j + 1, len(nums) - 1
+                logger.debug(f"i,j,k,l: {i, j, k, l}")
 
                 while k < l:
                     logger.debug(f"i,j,k,l: {i, j, k, l}")
@@ -51,27 +52,60 @@ class Solution:
                         candidate.sort()
                         # results.append(candidate)
                         candidate_idx = [i, j, k, l]
-                        if len(set(candidate_idx)) == 4 and candidate not in results:
+                        if i != j and j != k and k != l and l != i and candidate not in results:
                             results.append(candidate)
-                        # else: 
-                            # logger.debug(f"candidate idx not distinct: {candidate_idx}")
+                        k += 1
+                        l -= 1
                         
                         # while k < l and nums[k] == nums[k+1]:
                         #     k += 1
                         # while k < l and nums[l] == nums[l-1]:
                         #     l -= 1
                         
-                        if l + 1 > j:
-                            l-=1
-                        else: 
-                            k+=1
+                    elif current_sum < target:
+                        k += 1
+                    else: 
+                        l -= 1
+
+        logger.debug(f"Returning results: {results}")
+        return results
+
+
+class Solution:
+    """2-pointer method. Decently optimized."""
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        results = []
+        n = len(nums)
+
+        for i in range(n - 3):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+
+            for j in range(i + 1, n - 2):
+                if j > i + 1 and nums[j] == nums[j - 1]:
+                    continue
+                k, l = j + 1, n - 1
+
+                while k < l:
+                    current_sum = nums[i] + nums[j] + nums[k] + nums[l]
+                    if current_sum == target:
+                        candidate = [nums[i], nums[j], nums[k], nums[l]]
+                        if candidate not in results:
+                            results.append(candidate)
+                        while k < l and nums[k] == nums[k+1]:
+                            k += 1
+                        while k < l and nums[l] == nums[l-1]:
+                            l -= 1
+                        k += 1
+                        l -= 1
+                        
                     elif current_sum < target:
                         k += 1
                     else: 
                         l -= 1
 
         return results
-
 
 
 def permutate(output: List):
@@ -84,8 +118,8 @@ test_cases = [
     (([1,0,-1,0,-2,2], 0), [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]), 
     (([2,2,2,2,2], 8), [[2,2,2,2]]),
     (([0,0,0,0], 0), [[0,0,0,0]]),
+    (([-1,0,-5,-2,-2,-4,0,1,-2], -9), [[-5,-4,-1,1],[-5,-4,0,0],[-5,-2,-2,0],[-4,-2,-2,-1]]),
 ]
-
 
 
 test_cases = [(input, permutate(output)) for input, output in test_cases]
