@@ -25,7 +25,7 @@ from tools.my_logger import load_logger
 from tools.tester import run_test_cases
 DEBUG=True
 logger=load_logger(DEBUG=DEBUG)
-from typing import List, Tuple
+from typing import List
 
 
 class Solution:
