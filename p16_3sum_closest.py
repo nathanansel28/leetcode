@@ -34,23 +34,37 @@ class Solution:
     """2-pointer method."""
     def threeSumClosest(self, nums: List[int], target: int) -> int:
         nums.sort()
-        best_sum = None
+        logger.debug(f"nums sorted: {nums}")
+        best_sum = nums[0] + nums[1] + nums[2]
+        best_sum_idx = None
 
         for i in range(len(nums) - 2):
             if i > 0 and nums[i] == nums[i - 1]:
                 continue  
             j, k = i + 1, len(nums) - 1
+            logger.debug(f"\nITERATION {i, j, k}: {nums[i], nums[j], nums[k]}")
             while j < k:
 
                 current_sum = nums[i] + nums[j] + nums[k]
 
-                if current_sum - target == 0:
+                if abs(current_sum - target) < abs(best_sum - target):
+                    best_sum = current_sum
+                    best_sum_idx = [i, j, k]
+
+
+
+
+                if current_sum == target:
                     logger.debug(f"Found best best_sum from {nums[i], nums[j], nums[k]}")
                     return current_sum
-                elif current_sum - target < 0: 
+                elif current_sum < target: 
+                    logger.debug(f"Found current_sum < target from {nums[i], nums[j], nums[k]}")
+                    logger.debug(f"  changing {nums[j]} with {nums[j+1]}")
                     j += 1
                 else: 
+                    logger.debug(f"Found current_sum > target from {nums[i], nums[j], nums[k]}")
                     k -= 1
+                    logger.debug(f"  changing {nums[k]} with {nums[k-1]}")
 
                 if best_sum is None: 
                     best_sum = current_sum
@@ -58,8 +72,12 @@ class Solution:
 
                 elif abs(current_sum - target) < abs(best_sum - target):
                     best_sum = current_sum
+                    best_sum_idx = [i, j, k]
                     logger.debug(f"Found better best_sum from {nums[i], nums[j], nums[k]}")
-
+        if best_sum_idx is None: 
+            logger.debug("best_sum_idx is None")
+        else: 
+            logger.debug(f"\nFinal best sum: ijk={best_sum_idx} -> {nums[best_sum_idx[0]], nums[best_sum_idx[1]], nums[best_sum_idx[2]]}, {best_sum}")
         return best_sum
 
         
@@ -67,6 +85,8 @@ test_cases: List[Tuple[Tuple[List[int], int], int]] = [
     ( ([-1,2,1,-4], 1), 2 ),
     ( ([0,0,0], 1), 0 ),
     ( ([4,0,5,-5,3,3,0,-4,-5], -2), -2 ),
+    ( ([-4,2,2,3,3,3], 0), 0 ), 
+    ( ([-1000,-5,-5,-5,-5,-5,-5,-1,-1,-1], -14), -15 )
 ]
 
 run_test_cases(Solution().threeSumClosest, test_cases, passing_condition='equal')
